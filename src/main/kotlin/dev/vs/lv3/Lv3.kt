@@ -68,6 +68,7 @@ object Lv3 : DedicatedServerModInitializer {
 		CommandRegistrationCallback.EVENT.register { dispatcher, registryAccess, environment ->
 			ExchangeCommand.register(dispatcher)
 			LivesCommand.register(dispatcher)
+			AddLiveCommand.register(dispatcher)
 		}
 	}
 

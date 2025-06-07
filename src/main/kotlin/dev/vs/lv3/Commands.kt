@@ -69,8 +69,8 @@ class AddLiveCommand {
     companion object {
         fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
             dispatcher.register(
-                CommandManager.literal("lives")
-                    .requires { it.hasPermissionLevel(1) }
+                CommandManager.literal("addlive")
+                    .requires { it.hasPermissionLevel(2) }
                     .executes {
                         val to = EntityArgumentType.getPlayer(it, "player")
                         val toData = LivesLoader.getPlayerState(to) ?: return@executes 1
