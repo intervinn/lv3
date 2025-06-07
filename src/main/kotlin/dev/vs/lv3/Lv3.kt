@@ -90,6 +90,7 @@ object Lv3 : DedicatedServerModInitializer {
 
                 lives?.lives?.let {
                     if (it <= 0) {
+						server.commandManager.executeWithPrefix(server.commandSource, "/origin set ${entity.name.string} origins:origin origins:human")
                         entity.changeGameMode(GameMode.SPECTATOR)
                     }
                 }

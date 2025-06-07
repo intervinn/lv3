@@ -24,12 +24,19 @@ class ExchangeCommand {
                                 senderData.lives -= 1
                                 toData.lives += 1
                             }
-
                             if (senderData.lives == 0) {
                                 sender.changeGameMode(GameMode.SPECTATOR)
+                                val server = sender.server
+                                server.commandManager.executeWithPrefix(server.commandSource, "/origin set ${sender.name.string} origins:origin origins:human")
+
+                                it.source.sendFeedback({
+                                    Text.literal("Goodbye.")
+                                }, false)
+                                return@executes 1
                             }
 
                             if (sender != to && toData.lives == 1) {
+                                to.teleport(sender.serverWorld, sender.x, sender.y, sender.z, sender.yaw, sender.pitch)
                                 to.changeGameMode(GameMode.SURVIVAL)
                             }
 
@@ -72,7 +79,7 @@ class AddLiveCommand {
                 CommandManager.literal("addlive")
                     .requires { it.hasPermissionLevel(2) }
                     .executes {
-                        val to = EntityArgumentType.getPlayer(it, "player")
+                        val to = it.source.player ?: return@executes 1
                         val toData = LivesLoader.getPlayerState(to) ?: return@executes 1
 
                         toData.lives += 1
