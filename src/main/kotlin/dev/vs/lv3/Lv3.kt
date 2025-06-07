@@ -75,15 +75,23 @@ object Lv3 : DedicatedServerModInitializer {
 		ServerPlayConnectionEvents.JOIN.register { listener, sender, server ->
 			val player = listener.player
 			val data = LivesLoader.getPlayerState(player)
-			if (data?.lives == 0) {
-				player.changeGameMode(GameMode.SPECTATOR)
-			}
+            data?.lives?.let {
+                if (it <= 0) {
+                    player.changeGameMode(GameMode.SPECTATOR)
+                }
+            }
 		}
 
 		ServerLivingEntityEvents.AFTER_DEATH.register { entity, source ->
 			if (entity is ServerPlayerEntity) {
 				val lives = LivesLoader.getPlayerState(entity)
 				lives?.lives -= 1
+
+                lives?.lives?.let {
+                    if (it <= 0) {
+                        entity.changeGameMode(GameMode.SPECTATOR)
+                    }
+                }
 			}
 		}
 	}
