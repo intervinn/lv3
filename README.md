@@ -2,6 +2,8 @@
 This is a tiny server-side fabric mod that
 gives all players only 3 lives initially.
 
+Might require Fabric Language Kotlin
+
 You may do whatever with your lives, waste them or give to someone else.
 
 A player without lives turns into a ghost and can only play in spectator mode.
