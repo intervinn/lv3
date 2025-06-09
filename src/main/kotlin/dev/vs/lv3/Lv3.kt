@@ -22,10 +22,10 @@ class LivesLoader : PersistentState() {
 	companion object {
 		fun fromNbt(tag: NbtCompound): LivesLoader {
 			val state = LivesLoader()
-			val playersNbt = tag.getCompound("players")
+			val playersNbt = tag.getCompound("playerss")
 			playersNbt.keys.forEach {
 				val playerData = PlayerData()
-				playerData.lives = playersNbt.getCompound(it).getInt("lives")
+				playerData.lives = playersNbt.getCompound(it).getInt("livess")
 				val uuid = UUID.fromString(it)
 				state.players.put(uuid, playerData)
 			}
@@ -50,10 +50,10 @@ class LivesLoader : PersistentState() {
 		val playersNbt = NbtCompound()
 		players.forEach { uuid, data ->
 			val playerNbt = NbtCompound()
-			playerNbt.putInt("lives", data.lives)
+			playerNbt.putInt("livess", data.lives)
 			playersNbt.put(uuid.toString(), playerNbt)
 		}
-		nbt?.put("players", playersNbt)
+		nbt?.put("playerss", playersNbt)
 
 		return nbt
 	}
@@ -81,6 +81,7 @@ object Lv3 : DedicatedServerModInitializer {
                     player.changeGameMode(GameMode.SPECTATOR)
                 }
             }
+			updateDisplayName(player)
 		}
 
 		ServerLivingEntityEvents.AFTER_DEATH.register { entity, source ->
@@ -94,6 +95,7 @@ object Lv3 : DedicatedServerModInitializer {
                         entity.changeGameMode(GameMode.SPECTATOR)
                     }
                 }
+				updateDisplayName(entity)
 			}
 		}
 	}
